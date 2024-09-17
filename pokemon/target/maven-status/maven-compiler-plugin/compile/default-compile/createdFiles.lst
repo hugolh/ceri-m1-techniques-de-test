@@ -1,0 +1,12 @@
+com/pokemon/App.class
+com/pokemon/Team.class
+com/pokemon/PokedexException.class
+com/pokemon/PokemonTrainer.class
+com/pokemon/IPokemonMetadataProvider.class
+com/pokemon/IPokedexFactory.class
+com/pokemon/Pokemon.class
+com/pokemon/IPokemonTrainerFactory.class
+com/pokemon/IPokemonFactory.class
+com/pokemon/PokemonMetadata.class
+com/pokemon/IPokedex.class
+com/pokemon/PokemonComparators.class

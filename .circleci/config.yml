@@ -1,21 +1,28 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
 version: 2.1
 
+# Define a job to be invoked later in a workflow.
 jobs:
+  # Below is the definition of your job to build and test your app.
   build-and-test:
     docker:
       - image: cimg/openjdk:11.0
 
     steps:
+      # Checkout the code as the first step.
       - checkout
 
+      # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
 
+      # Then run your tests!
       - run:
           name: Test
           command: mvn test
 
+# Orchestrate jobs using workflows
 orbs:
   codecov: codecov/codecov@4.0.1
 

@@ -1,1 +1,6 @@
+com/pokemon/IPokedexTest.class
+com/pokemon/IPokemonFactoryTest.class
+com/pokemon/IPokemonMetadataProviderTest.class
 com/pokemon/AppTest.class
+com/pokemon/IPokemonTrainerFactoryTest.class
+com/pokemon/IPokedexFactoryTest.class

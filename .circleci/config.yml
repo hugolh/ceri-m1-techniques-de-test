@@ -31,8 +31,14 @@ jobs:
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
+orbs:
+  codecov: codecov/codecov@4.0.1
 workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
+  upload-to-codecov:
+    jobs:
+      - checkout
+      - codecov/upload

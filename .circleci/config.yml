@@ -25,9 +25,21 @@ jobs:
       # After the build and tests, upload coverage reports to Codecov.
       - codecov/upload:
           file: ./target/site/jacoco/jacoco.xml # Coverage file
+  package:
+    executor: maven-executor
+    steps:
+      - checkout
+      - run:
+          name: "Package the JAR"
+          command: mvn package
 
 workflows:
   version: 2
-  sample:
+  build_and_package:
     jobs:
       - build-and-test
+
+      - build
+      - package:
+          requires:
+            - build

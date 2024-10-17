@@ -25,8 +25,8 @@ public class IPokedexTest {
     public void setUp() {
         pokedexMock = mock(IPokedex.class);
 
-        mockPokemon1 = new Pokemon(1, "Pikachu", 55, 40, 35, 100, 35, 1000, 1, 0.9);
-        mockPokemon2 = new Pokemon(2, "Bulbasaur", 49, 49, 45, 100, 45, 500, 1, 0.85);
+        mockPokemon1 = new Pokemon(0, "Bulbizarre", 126, 126, 90, 613, 64, 4000, 4, 0.56);
+        mockPokemon2 = new Pokemon(133, "Aquali", 186, 168, 260, 2729, 202, 5000, 4, 0.1);
 
         when(pokedexMock.size()).thenReturn(2);
 
@@ -79,11 +79,11 @@ public class IPokedexTest {
     public void testGetPokemon() throws PokedexException {
         Pokemon pokemon = pokedexMock.getPokemon(0);
         assertNotNull(pokemon, "Pokemon should not be null");
-        assertEquals("Pikachu", pokemon.getName(), "Expected Pokemon name should be Pikachu");
+        assertEquals("Bulbizarre", pokemon.getName(), "Expected Pokemon name should be Pikachu");
 
         pokemon = pokedexMock.getPokemon(1);
         assertNotNull(pokemon, "Pokemon should not be null");
-        assertEquals("Bulbasaur", pokemon.getName(), "Expected Pokemon name should be Bulbasaur");
+        assertEquals("Aquali", pokemon.getName(), "Expected Pokemon name should be Bulbasaur");
     }
 
     @Test
@@ -91,8 +91,8 @@ public class IPokedexTest {
         List<Pokemon> pokemons = pokedexMock.getPokemons();
         assertNotNull(pokemons, "Pokemons list should not be null");
         assertEquals(2, pokemons.size(), "Pokedex should contain two Pokemon");
-        assertEquals("Pikachu", pokemons.get(0).getName(), "First Pokemon should be Pikachu");
-        assertEquals("Bulbasaur", pokemons.get(1).getName(), "Second Pokemon should be Bulbasaur");
+        assertEquals("Bulbizarre", pokemons.get(0).getName(), "First Pokemon should be Pikachu");
+        assertEquals("Aquali", pokemons.get(1).getName(), "Second Pokemon should be Bulbasaur");
     }
 
     @Test
@@ -100,7 +100,7 @@ public class IPokedexTest {
         List<Pokemon> sortedPokemons = pokedexMock.getPokemons(Comparator.comparing(Pokemon::getName));
         assertNotNull(sortedPokemons, "Sorted Pokemons list should not be null");
         assertEquals(2, sortedPokemons.size(), "Pokedex should still contain two Pokemon when sorted");
-        assertEquals("Bulbasaur", sortedPokemons.get(0).getName(), "First Pokemon should be Bulbasaur when sorted by name");
-        assertEquals("Pikachu", sortedPokemons.get(1).getName(), "Second Pokemon should be Pikachu when sorted by name");
+        assertEquals("Aquali", sortedPokemons.get(0).getName(), "First Pokemon should be Bulbasaur when sorted by name");
+        assertEquals("Bulbizarre", sortedPokemons.get(1).getName(), "Second Pokemon should be Pikachu when sorted by name");
     }
 }

@@ -18,3 +18,4 @@ public interface IPokedexFactory {
 	IPokedex createPokedex(IPokemonMetadataProvider metadataProvider, IPokemonFactory pokemonFactory);
 	
 }
+

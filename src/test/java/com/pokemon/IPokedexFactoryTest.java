@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for IPokedexFactory implementation.
- *
- * @author fv
  */
 public class IPokedexFactoryTest {
 
@@ -30,8 +28,6 @@ public class IPokedexFactoryTest {
 
     @Test
     public void testCreatePokedex() {
-        String region = "Kanto";
-
         IPokedex createdPokedex = pokedexFactoryMock.createPokedex(metadataProviderMock, pokemonFactoryMock);
 
         assertNotNull(createdPokedex, "Pokedex should not be null");

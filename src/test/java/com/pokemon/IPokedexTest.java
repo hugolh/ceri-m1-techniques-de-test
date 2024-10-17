@@ -12,8 +12,6 @@ import java.util.List;
 
 /**
  * Unit test for IPokedex implementation.
- *
- * @author fv
  */
 public class IPokedexTest {
 
@@ -79,11 +77,11 @@ public class IPokedexTest {
     public void testGetPokemon() throws PokedexException {
         Pokemon pokemon = pokedexMock.getPokemon(0);
         assertNotNull(pokemon, "Pokemon should not be null");
-        assertEquals("Bulbizarre", pokemon.getName(), "Expected Pokemon name should be Pikachu");
+        assertEquals("Bulbizarre", pokemon.getName(), "Expected Pokemon name should be Bulbizarre");
 
         pokemon = pokedexMock.getPokemon(1);
         assertNotNull(pokemon, "Pokemon should not be null");
-        assertEquals("Aquali", pokemon.getName(), "Expected Pokemon name should be Bulbasaur");
+        assertEquals("Aquali", pokemon.getName(), "Expected Pokemon name should be Aquali");
     }
 
     @Test
@@ -91,8 +89,8 @@ public class IPokedexTest {
         List<Pokemon> pokemons = pokedexMock.getPokemons();
         assertNotNull(pokemons, "Pokemons list should not be null");
         assertEquals(2, pokemons.size(), "Pokedex should contain two Pokemon");
-        assertEquals("Bulbizarre", pokemons.get(0).getName(), "First Pokemon should be Pikachu");
-        assertEquals("Aquali", pokemons.get(1).getName(), "Second Pokemon should be Bulbasaur");
+        assertEquals("Bulbizarre", pokemons.get(0).getName(), "First Pokemon should be Bulbizarre");
+        assertEquals("Aquali", pokemons.get(1).getName(), "Second Pokemon should be Aquali");
     }
 
     @Test
@@ -100,7 +98,53 @@ public class IPokedexTest {
         List<Pokemon> sortedPokemons = pokedexMock.getPokemons(Comparator.comparing(Pokemon::getName));
         assertNotNull(sortedPokemons, "Sorted Pokemons list should not be null");
         assertEquals(2, sortedPokemons.size(), "Pokedex should still contain two Pokemon when sorted");
-        assertEquals("Aquali", sortedPokemons.get(0).getName(), "First Pokemon should be Bulbasaur when sorted by name");
-        assertEquals("Bulbizarre", sortedPokemons.get(1).getName(), "Second Pokemon should be Pikachu when sorted by name");
+        assertEquals("Aquali", sortedPokemons.get(0).getName(), "First Pokemon should be Aquali when sorted by name");
+        assertEquals("Bulbizarre", sortedPokemons.get(1).getName(), "Second Pokemon should be Bulbizarre when sorted by name");
+    }
+
+    @Test
+    public void testGetPokemonsEmpty() {
+        when(pokedexMock.getPokemons()).thenReturn(new ArrayList<>());
+
+        List<Pokemon> pokemons = pokedexMock.getPokemons();
+        assertNotNull(pokemons, "Pokemons list should not be null");
+        assertTrue(pokemons.isEmpty(), "Pokemons list should be empty");
+    }
+
+    @Test
+    public void testAddMultiplePokemon() {
+        try {
+            List<Pokemon> pokemonList = new ArrayList<>();
+            pokemonList.add(mockPokemon1);
+            pokemonList.add(mockPokemon2);
+
+            when(pokedexMock.getPokemons()).thenReturn(pokemonList);
+
+            assertEquals(2, pokedexMock.size(), "Pokedex should contain two Pokemon");
+            assertEquals(mockPokemon1, pokedexMock.getPokemon(0), "First Pokemon should be Bulbizarre");
+            assertEquals(mockPokemon2, pokedexMock.getPokemon(1), "Second Pokemon should be Aquali");
+        } catch (PokedexException e) {
+            e.printStackTrace();
+            fail("PokedexException should not be thrown during this test.");
+        }
+    }
+
+
+    @Test
+    public void testGetPokemonsSortedByIndex() {
+        List<Pokemon> sortedPokemons = pokedexMock.getPokemons(Comparator.comparingInt(Pokemon::getIndex));
+        assertNotNull(sortedPokemons, "Sorted Pokemons list should not be null");
+        assertEquals(2, sortedPokemons.size(), "Pokedex should still contain two Pokemon when sorted by index");
+        assertEquals(0, sortedPokemons.get(0).getIndex(), "First Pokemon should have index 0 when sorted by index");
+        assertEquals(133, sortedPokemons.get(1).getIndex(), "Second Pokemon should have index 133 when sorted by index");
+    }
+
+    @Test
+    public void testGetPokemonsSortedByAttack() {
+        List<Pokemon> sortedPokemons = pokedexMock.getPokemons(Comparator.comparingInt(Pokemon::getAttack));
+        assertNotNull(sortedPokemons, "Sorted Pokemons list should not be null");
+        assertEquals(2, sortedPokemons.size(), "Pokedex should still contain two Pokemon when sorted by attack");
+        assertEquals(126, sortedPokemons.get(0).getAttack(), "First Pokemon should have attack 126 when sorted by attack");
+        assertEquals(186, sortedPokemons.get(1).getAttack(), "Second Pokemon should have attack 186 when sorted by attack");
     }
 }

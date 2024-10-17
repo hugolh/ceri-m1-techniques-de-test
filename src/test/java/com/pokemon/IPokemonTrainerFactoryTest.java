@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for IPokemonTrainerFactory implementation.
- *
- * @author fv
  */
 public class IPokemonTrainerFactoryTest {
 
@@ -18,6 +16,7 @@ public class IPokemonTrainerFactoryTest {
     private IPokemonMetadataProvider metadataProviderMock;
     private IPokemonFactory pokemonFactoryMock;
     private IPokemonTrainerFactory pokemonTrainerFactoryMock;
+
     @BeforeEach
     public void setUp() {
         pokedexFactoryMock = mock(IPokedexFactory.class);
@@ -47,5 +46,38 @@ public class IPokemonTrainerFactoryTest {
         assertEquals(pokedexMock, trainer.getPokedex(), "Trainer's pokedex should be the one returned by the factory");
 
         verify(pokemonTrainerFactoryMock).createTrainer(trainerName, trainerTeam, pokedexFactoryMock);
+    }
+
+    @Test
+    public void testCreateTrainerWithNullName() {
+        doThrow(new NullPointerException()).when(pokemonTrainerFactoryMock).createTrainer(null, Team.MYSTIC, pokedexFactoryMock);
+
+        assertThrows(NullPointerException.class, () -> {
+            pokemonTrainerFactoryMock.createTrainer(null, Team.MYSTIC, pokedexFactoryMock);
+        }, "Expected createTrainer to throw, but it didn't");
+
+        verify(pokemonTrainerFactoryMock).createTrainer(null, Team.MYSTIC, pokedexFactoryMock);
+    }
+
+    @Test
+    public void testCreateTrainerWithNullTeam() {
+        doThrow(new NullPointerException()).when(pokemonTrainerFactoryMock).createTrainer("Ash", null, pokedexFactoryMock);
+
+        assertThrows(NullPointerException.class, () -> {
+            pokemonTrainerFactoryMock.createTrainer("Ash", null, pokedexFactoryMock);
+        }, "Expected createTrainer to throw, but it didn't");
+
+        verify(pokemonTrainerFactoryMock).createTrainer("Ash", null, pokedexFactoryMock);
+    }
+
+    @Test
+    public void testCreateTrainerWithNullPokedexFactory() {
+        doThrow(new NullPointerException()).when(pokemonTrainerFactoryMock).createTrainer("Ash", Team.MYSTIC, null);
+
+        assertThrows(NullPointerException.class, () -> {
+            pokemonTrainerFactoryMock.createTrainer("Ash", Team.MYSTIC, null);
+        }, "Expected createTrainer to throw, but it didn't");
+
+        verify(pokemonTrainerFactoryMock).createTrainer("Ash", Team.MYSTIC, null);
     }
 }

@@ -1,14 +1,18 @@
 package com.pokemon;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit test for IPokedex implementation.
@@ -16,8 +20,11 @@ import java.util.List;
 public class IPokedexTest {
 
     private IPokedex pokedexMock;
+    private Pokedex pokedex;
     private Pokemon mockPokemon1;
     private Pokemon mockPokemon2;
+    private IPokemonMetadataProvider metadataProviderMock;
+    private IPokemonFactory pokemonFactoryMock;
 
     @BeforeEach
     public void setUp() {
@@ -27,36 +34,30 @@ public class IPokedexTest {
         mockPokemon2 = new Pokemon(133, "Aquali", 186, 168, 260, 2729, 202, 5000, 4, 0.1);
 
         when(pokedexMock.size()).thenReturn(2);
-
         when(pokedexMock.addPokemon(mockPokemon1)).thenReturn(0);
         when(pokedexMock.addPokemon(mockPokemon2)).thenReturn(1);
 
         try {
-            when(pokedexMock.getPokemon(0)).thenReturn(mockPokemon1);
-            when(pokedexMock.getPokemon(1)).thenReturn(mockPokemon2);
+        when(pokedexMock.getPokemon(0)).thenReturn(mockPokemon1);
+        when(pokedexMock.getPokemon(1)).thenReturn(mockPokemon2);
         } catch (PokedexException e) {
             e.printStackTrace();
         }
+
         List<Pokemon> pokemonList = new ArrayList<>();
         pokemonList.add(mockPokemon1);
         pokemonList.add(mockPokemon2);
         when(pokedexMock.getPokemons()).thenReturn(pokemonList);
-
         when(pokedexMock.getPokemons(any(Comparator.class))).thenAnswer(invocation -> {
             Comparator<Pokemon> comparator = invocation.getArgument(0);
             List<Pokemon> sortedList = new ArrayList<>(pokemonList);
             sortedList.sort(comparator);
             return sortedList;
         });
-    }
 
-    @Test
-    public void testGetPokemonThrowsException() throws PokedexException {
-        when(pokedexMock.getPokemon(99)).thenThrow(new PokedexException("Invalid ID"));
-
-        assertThrows(PokedexException.class, () -> {
-            pokedexMock.getPokemon(99);
-        }, "PokedexException should be thrown for an invalid ID");
+        metadataProviderMock = mock(IPokemonMetadataProvider.class);
+        pokemonFactoryMock = mock(IPokemonFactory.class);
+        pokedex = new Pokedex(metadataProviderMock, pokemonFactoryMock);
     }
 
     @Test
@@ -129,7 +130,6 @@ public class IPokedexTest {
         }
     }
 
-
     @Test
     public void testGetPokemonsSortedByIndex() {
         List<Pokemon> sortedPokemons = pokedexMock.getPokemons(Comparator.comparingInt(Pokemon::getIndex));
@@ -146,5 +146,61 @@ public class IPokedexTest {
         assertEquals(2, sortedPokemons.size(), "Pokedex should still contain two Pokemon when sorted by attack");
         assertEquals(126, sortedPokemons.get(0).getAttack(), "First Pokemon should have attack 126 when sorted by attack");
         assertEquals(186, sortedPokemons.get(1).getAttack(), "Second Pokemon should have attack 186 when sorted by attack");
+    }
+
+    @Test
+    public void testPokedexSize() {
+        assertEquals(0, pokedex.size(), "New Pokedex should be empty");
+        pokedex.addPokemon(mockPokemon1);
+        assertEquals(1, pokedex.size(), "Pokedex size should be 1 after adding a Pokemon");
+        pokedex.addPokemon(mockPokemon2);
+        assertEquals(2, pokedex.size(), "Pokedex size should be 2 after adding another Pokemon");
+    }
+
+    @Test
+    public void testPokedexAddPokemon() throws PokedexException {
+        pokedex.addPokemon(mockPokemon1);
+        assertEquals(mockPokemon1, pokedex.getPokemon(0), "First Pokemon should be Bulbizarre");
+        pokedex.addPokemon(mockPokemon2);
+        assertEquals(mockPokemon2, pokedex.getPokemon(1), "Second Pokemon should be Aquali");
+    }
+
+
+    @Test
+    public void testPokedexGetPokemon() throws PokedexException {
+        pokedex.addPokemon(mockPokemon1);
+        pokedex.addPokemon(mockPokemon2);
+
+        Pokemon pokemon = pokedex.getPokemon(0);
+        assertNotNull(pokemon, "Pokemon should not be null");
+        assertEquals("Bulbizarre", pokemon.getName(), "Expected Pokemon name should be Bulbizarre");
+
+        pokemon = pokedex.getPokemon(1);
+        assertNotNull(pokemon, "Pokemon should not be null");
+        assertEquals("Aquali", pokemon.getName(), "Expected Pokemon name should be Aquali");
+    }
+
+    @Test
+    public void testPokedexGetPokemons() {
+        pokedex.addPokemon(mockPokemon1);
+        pokedex.addPokemon(mockPokemon2);
+
+        List<Pokemon> pokemons = pokedex.getPokemons();
+        assertNotNull(pokemons, "Pokemons list should not be null");
+        assertEquals(2, pokemons.size(), "Pokedex should contain two Pokemon");
+        assertEquals("Bulbizarre", pokemons.get(0).getName(), "First Pokemon should be Bulbizarre");
+        assertEquals("Aquali", pokemons.get(1).getName(), "Second Pokemon should be Aquali");
+    }
+
+    @Test
+    public void testPokedexGetPokemonsSortedByName() {
+        pokedex.addPokemon(mockPokemon1);
+        pokedex.addPokemon(mockPokemon2);
+
+        List<Pokemon> sortedPokemons = pokedex.getPokemons(Comparator.comparing(Pokemon::getName));
+        assertNotNull(sortedPokemons, "Sorted Pokemons list should not be null");
+        assertEquals(2, sortedPokemons.size(), "Pokedex should still contain two Pokemon when sorted");
+        assertEquals("Aquali", sortedPokemons.get(0).getName(), "First Pokemon should be Aquali when sorted by name");
+        assertEquals("Bulbizarre", sortedPokemons.get(1).getName(), "Second Pokemon should be Bulbizarre when sorted by name");
     }
 }

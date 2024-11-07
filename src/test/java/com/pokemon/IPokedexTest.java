@@ -225,4 +225,51 @@ public void testGetPokemonInvalidIndex() {
     }
 }
 
+@Test
+public void testCreatePokemon() {
+    int index = 1;
+    int cp = 1500; 
+    int hp = 120;
+    int dust = 10000;
+    int candy = 150;
+    
+    Pokemon createdPokemon = new Pokemon(index, "Pikachu", cp, hp, 100, dust, candy, 5000, 4, 0.5);
+    
+   when(pokemonFactoryMock.createPokemon(index, cp, hp, dust, candy)).thenReturn(createdPokemon);
+
+    Pokemon result = pokedex.createPokemon(index, cp, hp, dust, candy);
+
+    assertNotNull(result, "The created Pokemon should not be null");
+    assertEquals("Pikachu", result.getName(), "The name of the created Pokemon should be Pikachu");
+    assertEquals(index, result.getIndex(), "The index of the created Pokemon should be 1");
+}
+
+
+@Test
+public void testGetPokemonMetadata() throws PokedexException {
+    int pokemonIndex = 1;
+    PokemonMetadata mockMetadata = new PokemonMetadata(4, "Pikachu", 128, 108, 78);
+    when(metadataProviderMock.getPokemonMetadata(pokemonIndex)).thenReturn(mockMetadata);
+
+    PokemonMetadata result = pokedex.getPokemonMetadata(pokemonIndex);
+
+    assertNotNull(result, "The Pokemon metadata should not be null");
+    assertEquals("Pikachu", result.getName(), "The name of the Pokemon should be Pikachu");
+  }
+
+@Test
+public void testGetPokemonMetadataInvalidIndex() {
+    try {
+        int invalidIndex = 999;
+        when(metadataProviderMock.getPokemonMetadata(invalidIndex)).thenThrow(new PokedexException("Invalid Pokemon index"));
+
+        pokedex.getPokemonMetadata(invalidIndex);
+        
+        fail("Expected PokedexException to be thrown for invalid Pokemon metadata index");
+    } catch (PokedexException e) {
+        assertEquals("Invalid Pokemon index", e.getMessage(), "The exception message should be 'Invalid Pokemon index'");
+    }
+}
+
+
 }

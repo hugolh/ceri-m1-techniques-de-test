@@ -18,6 +18,10 @@ jobs:
           name: Test
           command: mvn test
 
+      - run:
+          name: Run Checkstyle
+          command: mvn checkstyle:check
+
       - codecov/upload:
           file: ./target/site/jacoco/jacoco.xml
 

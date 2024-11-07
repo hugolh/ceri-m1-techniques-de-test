@@ -8,30 +8,24 @@ jobs:
     docker:
       - image: cimg/openjdk:11.0
     steps:
-      # Checkout the code as the first step.
       - checkout
 
-      # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
 
-      # Then run your tests!
       - run:
           name: Test
           command: mvn test
 
-      # After the build and tests, upload coverage reports to Codecov.
       - codecov/upload:
-          file: ./target/site/jacoco/jacoco.xml # Coverage file
+          file: ./target/site/jacoco/jacoco.xml
 
   build:
     docker:
       - image: cimg/openjdk:11.0
     steps:
-      # Checkout the code
       - checkout
-      # Run the Maven build without skipping tests
       - run:
           name: Build Project
           command: mvn clean install

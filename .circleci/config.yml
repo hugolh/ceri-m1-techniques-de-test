@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@4.0.1
-  github-pages: peaceiris/actions-gh-pages@v4
+  github-pages: peaceiris/actions-gh-pages@v3
 
 jobs:
   build-and-test:

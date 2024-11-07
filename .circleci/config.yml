@@ -28,12 +28,19 @@ jobs:
           command: |
             git config --global user.name "CircleCI Bot"
             git config --global user.email "circleci@example.com"
-            git clone --branch gh-pages https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
-            cp -r target/site/apidocs/* gh-pages/
+            
+            # Vérifier si la branche gh-pages existe, sinon la créer
+            git ls-remote --exit-code --heads https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages || \
+            git clone --single-branch --branch main https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
             cd gh-pages
+
+            # Copier les fichiers de la documentation Javadoc générée
+            cp -r ../target/site/apidocs/* .
+
             git add .
             git commit -m "Update documentation"
             git push https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
+
 
   build:
     docker:

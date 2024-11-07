@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@4.0.1
-  github-pages: peaceiris/actions-gh-pages@v3
 
 jobs:
   build-and-test:
@@ -24,10 +23,17 @@ jobs:
       - run:
           name: Generate Javadoc
           command: mvn javadoc:javadoc
-      - github-pages/deploy:
-          branch: gh-pages
-          folder: target/site/apidocs
-          token: $GITHUB_TOKEN
+      - run:
+          name: Deploy Documentation to GitHub Pages
+          command: |
+            git config --global user.name "CircleCI Bot"
+            git config --global user.email "circleci@example.com"
+            git clone --branch gh-pages https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
+            cp -r target/site/apidocs/* gh-pages/
+            cd gh-pages
+            git add .
+            git commit -m "Update documentation"
+            git push https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
 
   build:
     docker:

@@ -7,7 +7,6 @@ jobs:
   build-and-test:
     docker:
       - image: cimg/openjdk:11.0
-
     steps:
       # Checkout the code as the first step.
       - checkout
@@ -25,8 +24,21 @@ jobs:
       # After the build and tests, upload coverage reports to Codecov.
       - codecov/upload:
           file: ./target/site/jacoco/jacoco.xml # Coverage file
+
+  build:
+    docker:
+      - image: cimg/openjdk:11.0
+    steps:
+      # Checkout the code
+      - checkout
+      # Run the Maven build without skipping tests
+      - run:
+          name: Build Project
+          command: mvn clean install
+
   package:
-    executor: maven-executor
+    docker:
+      - image: cimg/openjdk:11.0
     steps:
       - checkout
       - run:
@@ -38,7 +50,6 @@ workflows:
   build_and_package:
     jobs:
       - build-and-test
-
       - build
       - package:
           requires:

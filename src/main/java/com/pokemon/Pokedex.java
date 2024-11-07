@@ -58,7 +58,6 @@ public class Pokedex implements IPokedex {
         return pokemonFactory.createPokemon( index, cp, hp, dust, candy);
     }
 
-    // Getter methods
     public IPokemonMetadataProvider getMetadataProvider() {
         return metadataProvider;
     }

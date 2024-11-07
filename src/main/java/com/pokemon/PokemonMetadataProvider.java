@@ -11,7 +11,7 @@ public class PokemonMetadataProvider implements IPokemonMetadataProvider {
         metadataMap = new HashMap<>();
        }
 
-    @Override
+    @Override   
     public PokemonMetadata getPokemonMetadata(int index) throws PokedexException {
         PokemonMetadata metadata = metadataMap.get(index);
         if (metadata == null) {

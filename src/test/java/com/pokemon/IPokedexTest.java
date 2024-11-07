@@ -203,4 +203,26 @@ public class IPokedexTest {
         assertEquals("Aquali", sortedPokemons.get(0).getName(), "First Pokemon should be Aquali when sorted by name");
         assertEquals("Bulbizarre", sortedPokemons.get(1).getName(), "Second Pokemon should be Bulbizarre when sorted by name");
     }
+
+
+    @Test
+public void testGetPokemonInvalidIndex() {
+    try {
+        pokedex.addPokemon(mockPokemon1);
+        pokedex.addPokemon(mockPokemon2);
+
+        pokedex.getPokemon(-1);
+        fail("Expected PokedexException to be thrown for invalid index");
+    } catch (PokedexException e) {
+        assertEquals("Invalid Pokemon index", e.getMessage(), "Exception message should be 'Invalid Pokemon index'");
+    }
+
+    try {
+        pokedex.getPokemon(2);
+        fail("Expected PokedexException to be thrown for invalid index");
+    } catch (PokedexException e) {
+        assertEquals("Invalid Pokemon index", e.getMessage(), "Exception message should be 'Invalid Pokemon index'");
+    }
+}
+
 }

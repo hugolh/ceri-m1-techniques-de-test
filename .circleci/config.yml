@@ -22,7 +22,9 @@ jobs:
           file: ./target/site/jacoco/jacoco.xml
       - run:
           name: Generate Javadoc
-          command: mvn javadoc:javadoc
+          command: |
+            mvn javadoc:javadoc || { echo "Javadoc generation failed"; exit 1; }
+
       - run:
           name: List Directory Contents
           command: ls -R target/site

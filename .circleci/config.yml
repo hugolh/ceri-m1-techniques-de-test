@@ -24,6 +24,9 @@ jobs:
           name: Generate Javadoc
           command: mvn javadoc:javadoc
       - run:
+          name: List Directory Contents
+          command: ls -R target/site
+      - run:
           name: Deploy Documentation to GitHub Pages
           command: |
             git config --global user.name "CircleCI Bot"
@@ -33,7 +36,6 @@ jobs:
             if git ls-remote --exit-code --heads https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages; then
               git clone --single-branch --branch gh-pages ssh://git@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
             else
-              # Create a new directory and initialize a new Git repo for gh-pages
               mkdir gh-pages
               cd gh-pages
               git init

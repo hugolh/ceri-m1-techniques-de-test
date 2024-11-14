@@ -48,6 +48,7 @@ jobs:
             # Check if Javadoc files are present, exit if not found
             if [ ! -d "../target/site/apidocs" ]; then
               echo "Javadoc files not found, skipping deployment."
+               mvn javadoc:javadoc 
             else
               echo "Javadoc files found, proceeding with deployment."
             fi

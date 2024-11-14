@@ -40,7 +40,13 @@ jobs:
               git checkout -b gh-pages
               git remote add origin ssh://git@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git
             fi
-            
+
+            # Check if Javadoc files are present, exit if not found
+            if [ ! -d "../target/site/apidocs" ]; then
+              echo "Javadoc files not found, skipping deployment."
+              exit 1
+            fi
+
             # Copy the generated Javadoc files
             cp -r ../target/site/apidocs/* gh-pages/
             cd gh-pages
@@ -49,6 +55,7 @@ jobs:
             git add .
             git commit -m "Update documentation"
             git push -f origin gh-pages
+
 
   build:
     docker:

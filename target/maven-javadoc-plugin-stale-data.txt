@@ -1,0 +1,41 @@
+--add-modules=jdk.unsupported
+@options
+@packages
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'pokemon 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' '/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'pokemon 1.0-SNAPSHOT API'
+com.pokemon
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/src/main/java = 1731614500061
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/tag-search-index.js = 1731615537243
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/overview-tree.html = 1731615537230
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/module-search-index.js = 1731615537241
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/index.html = 1731615537254
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/package-search-index.js = 1731615537241
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/serialized-form.html = 1731615537195
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/index-all.html = 1731615537252
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/allpackages-index.html = 1731615537240
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/member-search-index.js = 1731615537242
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/help-doc.html = 1731615537260
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/element-list = 1731615537169
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/search.html = 1731615537253
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/allclasses-index.html = 1731615537239
+/Users/lehenhugo/Desktop/Workspace/ceri-m1-techniques-de-test/target/site/apidocs/type-search-index.js = 1731615537242

@@ -29,20 +29,26 @@ jobs:
             git config --global user.name "CircleCI Bot"
             git config --global user.email "circleci@example.com"
             
-            # Check if the gh-pages branch exists; if not, clone master or main as fallback
-            git ls-remote --exit-code --heads https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages || \
-            git clone --single-branch --branch master https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages || \
-            git clone --single-branch --branch main https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
+            # Check if the gh-pages branch exists; if not, initialize it as a new branch
+            if git ls-remote --exit-code --heads https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages; then
+              git clone --single-branch --branch gh-pages ssh://git@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
+            else
+              # Create a new directory and initialize a new Git repo for gh-pages
+              mkdir gh-pages
+              cd gh-pages
+              git init
+              git checkout -b gh-pages
+              git remote add origin ssh://git@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git
+            fi
+            
+            # Copy the generated Javadoc files
+            cp -r ../target/site/apidocs/* gh-pages/
             cd gh-pages
 
-            # Copy the generated Javadoc files
-            cp -r ../target/site/apidocs/* .
-
+            # Commit and push changes
             git add .
             git commit -m "Update documentation"
-            
-            # Push to gh-pages branch using SSH
-            git push -f ssh://git@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
+            git push -f origin gh-pages
 
   build:
     docker:

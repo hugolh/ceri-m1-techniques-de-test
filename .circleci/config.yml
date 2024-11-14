@@ -49,6 +49,8 @@ jobs:
             if [ ! -d "../target/site/apidocs" ]; then
               echo "Javadoc files not found, skipping deployment."
               exit 1
+            else
+              echo "Javadoc files found, proceeding with deployment."
             fi
 
             # Copy the generated Javadoc files

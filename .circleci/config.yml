@@ -31,8 +31,10 @@ jobs:
             
             # Vérifier si la branche gh-pages existe, sinon la créer
             git ls-remote --exit-code --heads https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages || \
+            git clone --single-branch --branch master https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages || \
             git clone --single-branch --branch main https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
             cd gh-pages
+
 
             # Copier les fichiers de la documentation Javadoc générée
             cp -r ../target/site/apidocs/* .

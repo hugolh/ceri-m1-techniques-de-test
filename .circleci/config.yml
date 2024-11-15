@@ -36,13 +36,13 @@ jobs:
             
             # Check if the gh-pages branch exists; if not, initialize it as a new branch
             if git ls-remote --exit-code --heads https://github.com/hugolh/ceri-m1-techniques-de-test.git gh-pages; then
-              git clone --single-branch --branch gh-pages ssh://git@github.com/hugolh/ceri-m1-techniques-de-test.git gh-pages
+              git clone --single-branch --branch gh-pages https://$TOKEN@github.com/hugolh/ceri-m1-techniques-de-test.git gh-pages
             else
               mkdir gh-pages
               cd gh-pages
               git init
               git checkout -b gh-pages
-              git remote add origin ssh://git@github.com/hugolh/ceri-m1-techniques-de-test.git
+              git remote add origin https://$TOKEN@github.com/hugolh/ceri-m1-techniques-de-test.git
             fi
 
             # Check if Javadoc files are present, exit if not found
@@ -54,7 +54,7 @@ jobs:
             fi
 
             # Copy the generated Javadoc files
-            cp -r target/site/apidocs/* gh-pages/
+            cp -r ../target/site/apidocs/* gh-pages/
             cd gh-pages
 
             # Commit and push changes

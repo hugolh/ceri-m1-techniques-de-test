@@ -54,7 +54,7 @@ jobs:
             fi
 
             # Copy the generated Javadoc files
-            cp -r ../target/site/apidocs/* gh-pages/
+            cp -r target/site/apidocs/* gh-pages/
             cd gh-pages
 
             # Commit and push changes

@@ -31,8 +31,8 @@ jobs:
       - run:
           name: Deploy Documentation to GitHub Pages
           command: |
-            git config --global user.name "CircleCI Bot"
-            git config --global user.email "circleci@example.com"
+            git config --global user.name "hugolh"
+            git config --global user.email "hugolehen@gmail.com"
             
             # Check if the gh-pages branch exists; if not, initialize it as a new branch
             if git ls-remote --exit-code --heads https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages; then

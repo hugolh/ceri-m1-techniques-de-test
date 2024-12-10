@@ -41,20 +41,29 @@ J'ai implémenté `PokemonTrainerFactory` en vérifiant que les paramètres ne s
 
 ## TP6 Rocket Pokemon Factory
 
-Tests trigger : 
+### Tests trigger : 
 
 [ERROR]   IPokemonFactoryTest.testCreatePokemonWithDifferentValuesRealFactory:88 expected: <PokemonName> but was: <MISSINGNO>
 [ERROR]   IPokemonFactoryTest.testCreatePokemonWithRealFactory:71 expected: <PokemonName> but was: <Bulbasaur>
 
 
 
-Tests ajouté : testCreatePokemonWithOverIndex, testCreatePokemonWithNegativeIndex, testNegativeAttack, testNegativeDefense, testNegativeStamina
+### Tests ajouté : testCreatePokemonWithOverIndex, testCreatePokemonWithNegativeIndex, testNegativeAttack, testNegativeDefense, testNegativeStamina
 
-Problèmes de performances :
-- Liste codé en dure 
-- Boucle sur 1000000 itération
-
-Problèmes de cohérences : 
-- Metadata peuvent être négatives
-- La classe metadata provider pas utilisé
-
+### Problèmes de Performances :
+Liste codée en dur (index2name) pour les noms des Pokémon.
+Boucle inefficace sur 1 000 000 itérations pour générer une statistique aléatoire.
+### Problèmes de Cohérence :
+Les métadonnées peuvent être négatives pour certains indices.
+La classe IPokemonMetadataProvider n'est pas utilisée pour récupérer les métadonnées des Pokémon.
+Valeurs d'IV fixes (0 ou 1) non calculées correctement.
+Les statistiques d'attaque, défense et stamina ne respectent pas les limites définies (0 à 15).
+Le nom par défaut "MISSINGNO" est attribué pour des indices invalides, ce qui ne respecte pas le comportement attendu.
+Les Pokémon avec un index négatif ont des statistiques irréalistes (1000).
+La méthode generateRandomStat n'est pas utilisée de manière optimale, et son comportement est incohérent.
+### Problèmes de Robustesse :
+Pas de gestion des exceptions pour les cas où les métadonnées sont introuvables.
+Dépendance implicite à index2name qui ne couvre pas tous les indices valides (de 0 à 150).
+### Problèmes de Lisibilité :
+Structure du code peu maintenable et non extensible (ex., la gestion des noms Pokémon est fixée dans un static block).
+Utilisation de la méthode get avec un index par défaut ambigu (0) pour les Pokémon invalides.

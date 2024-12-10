@@ -36,3 +36,25 @@ J'ai implémenté PokemonMetadataProvider en utilisant une HashMap pour stocker 
 
 ### PokemonTrainerFactory
 J'ai implémenté `PokemonTrainerFactory` en vérifiant que les paramètres ne soient pas nuls et en utilisant le `pokedexFactory` pour créer un `Pokedex`, respectant ainsi l'interface `IPokemonTrainerFactory`.
+
+
+
+## TP6 Rocket Pokemon Factory
+
+Tests trigger : 
+
+[ERROR]   IPokemonFactoryTest.testCreatePokemonWithDifferentValuesRealFactory:88 expected: <PokemonName> but was: <MISSINGNO>
+[ERROR]   IPokemonFactoryTest.testCreatePokemonWithRealFactory:71 expected: <PokemonName> but was: <Bulbasaur>
+
+
+
+Tests ajouté : testCreatePokemonWithOverIndex, testCreatePokemonWithNegativeIndex, testNegativeAttack, testNegativeDefense, testNegativeStamina
+
+Problèmes de performances :
+- Liste codé en dure 
+- Boucle sur 1000000 itération
+
+Problèmes de cohérences : 
+- Metadata peuvent être négatives
+- La classe metadata provider pas utilisé
+
